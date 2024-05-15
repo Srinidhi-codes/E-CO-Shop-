@@ -4,12 +4,20 @@ import './header.css'
 import SearchIcon from '@mui/icons-material/Search'
 import SelectDrop from '../selectDrop/Select'
 import { Close, LocationOnOutlined } from '@mui/icons-material'
-import { allCategories, otherIcons } from "../../constants/headerConstant"
+import { accountList, allCategories } from "../../constants/headerConstant"
+import Account from '../../assets/icon-user.svg'
+import Compare from '../../assets/icon-compare.svg'
+import Wishlist from '../../assets/icon-heart.svg'
+import Cart from '../../assets/icon-cart.svg'
+import { ClickAwayListener } from '@mui/material'
+import Navbar from './components/Navbar'
+import Dropdown from './components/Dropdown'
 
 
 const Header = () => {
     const [search, setSearch] = useState('')
     const [countryList, setCountryList] = useState([]);
+    const [accountDropDown, setAccountDropDown] = useState(false)
 
     useMemo(() => {
         const getCountryList = async () => {
@@ -24,10 +32,11 @@ const Header = () => {
 
         getCountryList();
     }, []);
+
     return (
         <>
             <header className='py-10'>
-                <div className='flex items-center justify-between px-[4rem]'>
+                <div className='flex flex-wrap items-center justify-between px-[4rem]'>
                     <div className=''>
                         <img src={Logo} alt="" />
                     </div>
@@ -46,10 +55,32 @@ const Header = () => {
                         <SelectDrop placeholder={'Your Location'} data={countryList} />
                     </div>
                     <div className='flex items-center gap-x-[2.5rem]'>
-                        {otherIcons.map((items) => <div key={items._id} className='relative flex items-end gap-2 cursor-pointer'><img src={items.imgsrc} alt={items.name} /><span className='absolute top-[-13px] left-[19px] bg-primary rounded-full text-sm px-2 py-0 text-white'>3</span>{items.name}</div>)}
+                        <div className='relative flex items-end gap-x-2 cursor-pointer'>
+                            <img src={Compare} alt={'compare'} />
+                            <span className='absolute top-[-13px] left-[19px] bg-primary rounded-full text-sm px-2 py-0 text-white'>3</span>
+                            Compare
+                        </div>
+                        <div className='relative flex items-end gap-x-2 cursor-pointer'>
+                            <img src={Wishlist} alt={'compare'} />
+                            <span className='absolute top-[-13px] left-[19px] bg-primary rounded-full text-sm px-2 py-0 text-white'>3</span>
+                            Wishlist
+                        </div>
+                        <div className='relative flex items-end gap-x-2 cursor-pointer'>
+                            <img src={Cart} alt={'compare'} />
+                            <span className='absolute top-[-13px] left-[19px] bg-primary rounded-full text-sm px-2 py-0 text-white'>3</span>
+                            Cart
+                        </div>
+                        <ClickAwayListener onClickAway={() => setAccountDropDown(false)}>
+                            <div onClick={() => setAccountDropDown(!accountDropDown)} className='relative flex items-end gap-x-2 cursor-pointer'>
+                                <img src={Account} alt={'account'} />
+                                Account
+                                {accountDropDown && <Dropdown data={accountList} />}
+                            </div>
+                        </ClickAwayListener>
                     </div>
                 </div>
             </header >
+            <Navbar />
         </>
     )
 }
