@@ -74,7 +74,7 @@ const Header = () => {
                             <div onClick={() => setAccountDropDown(!accountDropDown)} className='relative flex items-end gap-x-2 cursor-pointer'>
                                 <img src={Account} alt={'account'} />
                                 Account
-                                {accountDropDown && <Dropdown data={accountList} />}
+                                {accountDropDown && <Dropdown className='absolute top-[3rem] -left-5 w-[160px]' data={accountList} />}
                             </div>
                         </ClickAwayListener>
                     </div>
